@@ -10,7 +10,9 @@
         <router-link to='/admin/manage/lots'>
           <a href='#'><li>Lotes</li></a>
         </router-link>
-        <a href='#'><li>Vendas</li></a>
+        <router-link to='/admin/manage/sales'>
+          <a href='#'><li>Vendas</li></a>
+        </router-link>
       </ul>
     </nav>
   </div>

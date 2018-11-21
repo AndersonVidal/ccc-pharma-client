@@ -4,6 +4,7 @@ import ProdutosCliente from '@/views/ProdutosCliente'
 import Manage from '@/views/admin/Manage'
 import ProductsTable from '@/components/admin/tables/ProductsTable'
 import LotsTable from '@/components/admin/tables/LotsTable'
+import SalesTable from '@/components/admin/tables/SalesTable'
 Vue.use(Router)
 
 export default new Router({
@@ -19,7 +20,8 @@ export default new Router({
       component: Manage,
       children: [
         { path: 'products', component: ProductsTable },
-        { path: 'lots', component: LotsTable }
+        { path: 'lots', component: LotsTable },
+        { path: 'sales', component: SalesTable }
       ]
     }
   ]
