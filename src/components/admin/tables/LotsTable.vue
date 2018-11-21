@@ -1,7 +1,14 @@
 <template>
   <div>
-    <button class='btn-cadastrar' @click='lotForm()'><span class='icon'>{{icons.plus}}</span>  Novo</button>
-    <lots-form/>
+    <div class="tools-bar">
+      <button class='btn-cadastrar' @click='lotForm()'><span class='icon'>{{icons.plus}}</span>  Novo</button>
+      <lots-form/>
+      <ul class="nav-estoque">
+        <li @click="tab = 'estoque'" :class="{active: tab === 'estoque'}">Estoque</li>
+        <li @click="tab = 'vencidos'; filterVencidos()" :class="{active: tab === 'vencidos'}">Vencidos</li>
+        <li @click="tab = 'em_falta'" :class="{active: tab === 'em_falta'}">Em falta</li>
+      </ul>
+    </div>
     <table class='table'>
       <thead>
         <tr>
@@ -34,6 +41,7 @@ export default {
     return {
       icons,
       sortProperty: 'produto',
+      tab: 'estoque',
       dinamicTitles: [
         { label: 'Produto', property: 'produto' },
         { label: 'Quantidade', property: 'quantidade' },
@@ -54,6 +62,11 @@ export default {
           produto: 'Benegrip',
           quantidade: 10,
           validade: '2020/05/10'
+        },
+        {
+          produto: 'Remedio',
+          quantidade: 10,
+          validade: '2015/05/10'
         }
       ]
     }
@@ -80,33 +93,61 @@ export default {
         else if (a[this.sortProperty] > b[this.sortProperty]) return 1
         else return 0
       })
+    },
+    filterVencidos () {
+      this.lotes.filter((lote) => {
+        return (new Date(lote.validade)) < Date.now()
+      })
     }
   }
 }
 </script>
 
 <style lang='scss' scoped>
-
+.tools-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+}
+.nav-estoque {
+  margin: auto;
+  user-select: none;
+  box-shadow: 0 0 3px #ccc;
+  padding: 1rem;
+  .active {
+    font-weight: 600;
+    color: #0fb5d6;
+  }
+  li {
+    list-style: none;
+    display: inline-block;
+    padding: 0 1rem;
+    border-right: 1px solid #ddd;
+    color: #aaa;
+    cursor: pointer;
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
 .btn-cadastrar {
   background-color: #fff;
   border: none;
   box-shadow: 0 1px 7px #aaa;
   border-radius: 24px;
   padding: .8rem 1.2rem;
-  margin: 2rem 0;
   color: #888;
   font-size: .9rem;
   font-weight: bold;
   cursor: pointer;
   outline: none;
 }
-
 .icon {
   margin-right: .7rem;
   color: #55b42f;
   font-size: 1rem;
 }
-
 table {
   border-collapse: collapse;
   width: 100%;
@@ -130,9 +171,7 @@ table {
     background: #f1f1f1;
   }
 }
-
 table th, table td {
   text-align: left;
 }
-
 </style>
