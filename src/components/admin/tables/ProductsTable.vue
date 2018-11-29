@@ -1,7 +1,10 @@
 <template>
   <div>
-    <button class="btn-cadastrar" @click="showForm = true">
+    <button class="btn btn-cadastrar" @click="showForm = true">
       <span class="icon">{{ icons.plus }}</span>Novo
+    </button>
+    <button class="btn btn-descontar" @click="showOffForm = true">
+      <span class="icon">{{ icons.priceTag }}</span>Aplicar descontos
     </button>
     <table class="table">
       <thead>
@@ -22,11 +25,15 @@
     <transition name="modal">
       <product-form :produto="{}" @close="showForm = false" v-if="showForm"/>
     </transition>
+    <transition name="modal">
+      <off-form @close="showOffForm = false" v-if="showOffForm"/>
+    </transition>
   </div>
 </template>
 
 <script>
 import ProductForm from '@/components/admin/forms/ProductForm'
+import OffForm from '@/components/admin/forms/OffForm'
 import ProductRow from '@/components/admin/tables/ProductRow'
 import icons from 'glyphicons'
 
@@ -36,6 +43,7 @@ export default {
     return {
       icons,
       showForm: false,
+      showOffForm: false,
       dinamicTitles: [
         { label: 'Nome', property: 'nome' },
         { label: 'Fabricante', property: 'fabricante' },
@@ -78,7 +86,8 @@ export default {
   },
   components: {
     ProductForm,
-    ProductRow
+    ProductRow,
+    OffForm
   },
   methods: {
     productForm () {
@@ -128,4 +137,8 @@ export default {
 
 <style lang='scss' scoped>
   @import 'src/assets/css/tables.scss';
+
+  .btn-descontar {
+    margin-left: 20px;
+  }
 </style>
